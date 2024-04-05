@@ -20,28 +20,32 @@ describe("Lock", function () {
       describe("Deployment", function () {
         it("Should set the right unlockTime ERROR", async function () {
           const { halving } = await loadFixture(deployFixture);
-          await time.increase(8 * 24 * 60 * 60); // Increase time by 30 days
           await halving.start(); // Start the contract
-          await time.increase(1); // Increase time by 1 second to ensure the difference in timestamps
-          const tpsBeforeMint = await halving.tps(); // Get TPS before minting
-          console.log(tpsBeforeMint)
-          await halving.publicMint(); // Mint tokens
-          const tpsAfterMint = await halving.tps(); // Get TPS after minting
-          console.log(tpsAfterMint);
-          expect(tpsAfterMint).to.equal(7000000000000000000n); // Verify that TPS has been halved
-        });
 
-        it("Should set the right unlockTime ERROR", async function () {
-          const { halving } = await loadFixture(deployFixture);
-          await time.increase(8 * 24 * 60 * 60); // Increase time by 30 days
-          await halving.start(); // Start the contract
-          await time.increase(1); // Increase time by 1 second to ensure the difference in timestamps
           const tpsBeforeMint = await halving.tps(); // Get TPS before minting
-          console.log(tpsBeforeMint)
+          console.log(tpsBeforeMint);
           await halving.publicMint(); // Mint tokens
+
+          await time.increase(30 *24 *60 *60)
+          await halving.publicMint(); // Mint tokens
+
           const tpsAfterMint = await halving.tps(); // Get TPS after minting
           console.log(tpsAfterMint);
+          
           expect(tpsAfterMint).to.equal(3500000000000000000n); // Verify that TPS has been halved
         });
+
+        // it("Should set the right unlockTime ERROR", async function () {
+        //   const { halving } = await loadFixture(deployFixture);
+        //   await time.increase(8 * 24 * 60 * 60); // Increase time by 30 days
+        //   await halving.start(); // Start the contract
+        //   await time.increase(1); // Increase time by 1 second to ensure the difference in timestamps
+        //   const tpsBeforeMint = await halving.tps(); // Get TPS before minting
+        //   console.log(tpsBeforeMint)
+        //   await halving.publicMint(); // Mint tokens
+        //   const tpsAfterMint = await halving.tps(); // Get TPS after minting
+        //   console.log(tpsAfterMint);
+        //   expect(tpsAfterMint).to.equal(3500000000000000000n); // Verify that TPS has been halved
+        // });
       });
     });

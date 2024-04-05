@@ -90,7 +90,7 @@ contract DCT is ERC20 {
         }
         _mint(msg.sender, mintingA);
         _lastMintAt = block.timestamp;
-        if (block.timestamp + _lastHalved >= HALVING_INTERVAL) {
+        if (block.timestamp - _lastHalved >= HALVING_INTERVAL) {
             _tps = _tps / 2;
             _lastHalved = block.timestamp;
         }
